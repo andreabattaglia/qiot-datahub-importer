@@ -1,6 +1,5 @@
 package com.redhat.qiot.datahub.importer.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.bson.Document;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -19,19 +17,14 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.IndexOptions;
-import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.InsertManyOptions;
-import com.mongodb.client.model.InsertOneModel;
-import com.mongodb.client.model.WriteModel;
-import com.mongodb.client.model.geojson.Point;
-import com.mongodb.client.model.geojson.Position;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistory;
 
 import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class MeasurementHistoryRepository {
+    private static final String DATABASE_NAME = "qiot";
+
     private static final String MEASUREMENTHISTORY = "measurementhistory";
 
     @Inject
@@ -39,6 +32,7 @@ public class MeasurementHistoryRepository {
 
     @Inject
     MongoClient mongoClient;
+
     MongoDatabase qiotDatabase;
     MongoCollection<MeasurementHistory> measurementHistoryCollection;
     CodecProvider pojoCodecProvider;
@@ -50,7 +44,7 @@ public class MeasurementHistoryRepository {
     @PostConstruct
     void init() {
 
-        qiotDatabase = mongoClient.getDatabase("qiot");
+        qiotDatabase = mongoClient.getDatabase(DATABASE_NAME);
         try {
             qiotDatabase.createCollection(MEASUREMENTHISTORY);
         } catch (Exception e) {
