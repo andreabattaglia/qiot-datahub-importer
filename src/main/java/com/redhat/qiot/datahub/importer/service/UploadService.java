@@ -31,8 +31,8 @@ import com.redhat.qiot.datahub.importer.persistence.OtherMeasurementStationRepos
 @ApplicationScoped
 public class UploadService {
 
-    private static final String TMP_QIOT_MEASUREMENTS_FOLDER = "/tmp/qiot/measurements";
-    private static final String TMP_QIOT_STATIONS_FOLDER = "/tmp/qiot/stations";
+    private  final String TMP_QIOT_MEASUREMENTS_FOLDER = "/tmp/qiot/measurements";
+    private  final String TMP_QIOT_STATIONS_FOLDER = "/tmp/qiot/stations";
 
     @Inject
     Logger LOGGER;

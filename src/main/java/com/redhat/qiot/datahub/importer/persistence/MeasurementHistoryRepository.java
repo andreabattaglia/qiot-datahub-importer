@@ -23,9 +23,9 @@ import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class MeasurementHistoryRepository {
-    private static final String DATABASE_NAME = "qiot";
+    private final String DATABASE_NAME = "qiot";
 
-    private static final String MEASUREMENTHISTORY = "measurementhistory";
+    private final String MEASUREMENTHISTORY = "measurementhistory";
 
     @Inject
     Logger LOGGER;

@@ -27,7 +27,7 @@ import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class OtherMeasurementStationRepository {
-    private static final String OTHER_MEASUREMENT_STATION = "othermeasurementstation";
+    private final String OTHER_MEASUREMENT_STATION = "othermeasurementstation";
 
     @Inject
     Logger LOGGER;
