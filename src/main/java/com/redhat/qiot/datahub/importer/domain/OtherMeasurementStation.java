@@ -1,10 +1,11 @@
 package com.redhat.qiot.datahub.importer.domain;
 
+import com.mongodb.client.model.geojson.Point;
+
 public class OtherMeasurementStation {
     public String country;
     public String city;
-    public double longitude;
-    public double latitude;
+    public Point location;
 
     @Override
     public int hashCode() {
@@ -40,7 +41,8 @@ public class OtherMeasurementStation {
     @Override
     public String toString() {
         return "OtherMeasurementStation [country=" + country + ", city=" + city
-                + ", longitude=" + longitude + ", latitude=" + latitude + "]";
+                + ", location=" + location + "]";
     }
+
 
 }

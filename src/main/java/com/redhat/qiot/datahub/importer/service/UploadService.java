@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,6 +22,8 @@ import javax.json.JsonReader;
 
 import org.slf4j.Logger;
 
+import com.mongodb.client.model.geojson.Point;
+import com.mongodb.client.model.geojson.Position;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistory;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistoryId;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistoryType;
@@ -31,8 +34,8 @@ import com.redhat.qiot.datahub.importer.persistence.OtherMeasurementStationRepos
 @ApplicationScoped
 public class UploadService {
 
-    private  final String TMP_QIOT_MEASUREMENTS_FOLDER = "/tmp/qiot/measurements";
-    private  final String TMP_QIOT_STATIONS_FOLDER = "/tmp/qiot/stations";
+    private final String TMP_QIOT_MEASUREMENTS_FOLDER = "/tmp/qiot/measurements";
+    private final String TMP_QIOT_STATIONS_FOLDER = "/tmp/qiot/stations";
 
     @Inject
     Logger LOGGER;
@@ -43,7 +46,7 @@ public class UploadService {
     OtherMeasurementStationRepository omsRepository;
 
     public int uploadOtherStations() {
-        int total=0;
+        int total = 0;
         for (Path jsonFilePath : getArchives(TMP_QIOT_STATIONS_FOLDER)) {
             JsonObject jsonObject = null;
             JsonArray stations = null;
@@ -65,14 +68,15 @@ public class UploadService {
                 OtherMeasurementStation oms = new OtherMeasurementStation();
                 oms.country = stationPlace.getString("country");
                 oms.city = stationPlace.getString("name");
-                oms.latitude = coordinates.getJsonNumber(0).doubleValue();
-                oms.longitude = coordinates.getJsonNumber(1).doubleValue();
+                oms.location = new Point(new Position(Arrays.asList(
+                        coordinates.getJsonNumber(0).doubleValue(),
+                        coordinates.getJsonNumber(1).doubleValue())));
                 LOGGER.debug("Red measurement station {}", oms);
                 omss.add(oms);
             }
 
             omsRepository.saveBulk(omss);
-            total+= omss.size();
+            total += omss.size();
         }
         return total;
     }

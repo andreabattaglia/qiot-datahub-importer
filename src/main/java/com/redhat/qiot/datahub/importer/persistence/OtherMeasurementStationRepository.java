@@ -1,6 +1,5 @@
 package com.redhat.qiot.datahub.importer.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,19 +7,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.bson.Document;
 import org.slf4j.Logger;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.CreateCollectionOptions;
-import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.InsertOneModel;
-import com.mongodb.client.model.WriteModel;
-import com.mongodb.client.model.geojson.Point;
-import com.mongodb.client.model.geojson.Position;
 import com.redhat.qiot.datahub.importer.domain.OtherMeasurementStation;
 
 import io.quarkus.runtime.StartupEvent;
@@ -36,7 +28,7 @@ public class OtherMeasurementStationRepository {
 
     MongoClient mongoClient;
     MongoDatabase qiotDatabase;
-    MongoCollection<Document> otherMeasurementStationCollection;
+    MongoCollection<OtherMeasurementStation> otherMeasurementStationCollection;
 
     void onStart(@Observes StartupEvent ev) {
     }
@@ -50,8 +42,8 @@ public class OtherMeasurementStationRepository {
             LOGGER.info(
                     "Collection \"othermeasurementstation\" already exists");
         }
-        otherMeasurementStationCollection = qiotDatabase
-                .getCollection(OTHER_MEASUREMENT_STATION);
+        otherMeasurementStationCollection = qiotDatabase.getCollection(
+                OTHER_MEASUREMENT_STATION, OtherMeasurementStation.class);
         /*
          * ensure indexes exist
          */
@@ -59,45 +51,49 @@ public class OtherMeasurementStationRepository {
     }
 
     private void ensureIndexes() {
-        IndexOptions indexOptions = new IndexOptions().unique(true);
-//        otherMeasurementStationCollection
-//                .createIndex(Indexes.ascending("serial"));
-//        otherMeasurementStationCollection.createIndex(
-//                Indexes.ascending("serial", "timestamp" + ""), indexOptions);
+        // IndexOptions indexOptions = new IndexOptions().unique(true);
+        // otherMeasurementStationCollection
+        // .createIndex(Indexes.ascending("serial"));
+        // otherMeasurementStationCollection.createIndex(
+        // Indexes.ascending("serial", "timestamp" + ""), indexOptions);
         otherMeasurementStationCollection
                 .createIndex(Indexes.geo2dsphere("location"));
     }
 
-    public void save(String country, String city, double longitude,
-            double latitude) {
-
-        Document document = null;
-
-        document = new Document();
-        document.put("country", country);
-        document.put("city", city);
-        document.put("location", new Point(new Position(longitude, latitude)));
-        otherMeasurementStationCollection.insertOne(document);
-    }
-
     public void saveBulk(List<OtherMeasurementStation> stations) {
-        List<WriteModel<Document>> documents = new ArrayList<>();
-        for (OtherMeasurementStation station : stations) {
-            documents.add(new InsertOneModel<Document>(omsToDoc(station)));
-        }
-        otherMeasurementStationCollection.bulkWrite(documents);
+        otherMeasurementStationCollection.insertMany(stations);
     }
 
-    private Document omsToDoc(OtherMeasurementStation station) {
-
-        Document document = null;
-
-        document = new Document();
-        document.put("country", station.country);
-        document.put("city", station.city);
-        document.put("location",
-                new Point(new Position(station.longitude, station.latitude)));
-
-        return document;
-    }
+    // public void save(String country, String city, double longitude,
+    // double latitude) {
+    //
+    // Document document = null;
+    //
+    // document = new Document();
+    // document.put("country", country);
+    // document.put("city", city);
+    // document.put("location", new Point(new Position(longitude, latitude)));
+    // otherMeasurementStationCollection.insertOne(document);
+    // }
+    //
+    // public void saveBulk(List<OtherMeasurementStation> stations) {
+    // List<WriteModel<Document>> documents = new ArrayList<>();
+    // for (OtherMeasurementStation station : stations) {
+    // documents.add(new InsertOneModel<Document>(omsToDoc(station)));
+    // }
+    // otherMeasurementStationCollection.bulkWrite(documents);
+    // }
+    //
+    // private Document omsToDoc(OtherMeasurementStation station) {
+    //
+    // Document document = null;
+    //
+    // document = new Document();
+    // document.put("country", station.country);
+    // document.put("city", station.city);
+    // document.put("location",
+    // new Point(new Position(station.longitude, station.latitude)));
+    //
+    // return document;
+    // }
 }
