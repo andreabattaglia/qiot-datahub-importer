@@ -69,8 +69,8 @@ public class UploadService {
                 oms.country = stationPlace.getString("country");
                 oms.city = stationPlace.getString("name");
                 oms.location = new Point(new Position(Arrays.asList(
-                        coordinates.getJsonNumber(0).doubleValue(),
-                        coordinates.getJsonNumber(1).doubleValue())));
+                        coordinates.getJsonNumber(1).doubleValue(),
+                        coordinates.getJsonNumber(0).doubleValue())));
                 LOGGER.debug("Red measurement station {}", oms);
                 omss.add(oms);
             }
