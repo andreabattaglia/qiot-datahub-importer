@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import com.mongodb.client.model.geojson.Point;
 import com.mongodb.client.model.geojson.Position;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistory;
-import com.redhat.qiot.datahub.importer.domain.MeasurementHistoryId;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistoryType;
 import com.redhat.qiot.datahub.importer.domain.OtherMeasurementStation;
 import com.redhat.qiot.datahub.importer.persistence.MeasurementHistoryRepository;
@@ -87,7 +86,7 @@ public class UploadService {
         String cvsSplitBy = ",";
         int counter = 0, fileTotal = 0, total = 0, i;
         MeasurementHistory mh = null;
-        MeasurementHistoryId mhi = null;
+//        MeasurementHistoryId mhi = null;
 
         List<MeasurementHistory> mhs;
 
@@ -103,20 +102,24 @@ public class UploadService {
                     String[] data = line.split(cvsSplitBy);
 
                     mh = new MeasurementHistory();
-                    // mh.date = df.parse(data[i++]);
-                    // mh.country = data[i++];
-                    // mh.city = data[i++];
-                    // mh.specie = data[i++];
-                    mhi = new MeasurementHistoryId();
-                    mhi.date = data[i++];
-                    mhi.country = data[i++];
-                    mhi.city = data[i++];
+                    // mhi = new MeasurementHistoryId();
+                    // mhi.date = data[i++];
+                    // mhi.country = data[i++];
+                    // mhi.city = data[i++];
+                    // try {
+                    // mhi.specie = MeasurementHistoryType.valueOf(data[i++]);
+                    // } catch (IllegalArgumentException e) {
+                    // continue;
+                    // }
+                    // mh.id = mhi;
+                    mh.date = data[i++];
+                    mh.country = data[i++];
+                    mh.city = data[i++];
                     try {
-                        mhi.specie = MeasurementHistoryType.valueOf(data[i++]);
+                        mh.specie = MeasurementHistoryType.valueOf(data[i++]);
                     } catch (IllegalArgumentException e) {
                         continue;
                     }
-                    mh.id = mhi;
                     mh.count = Integer.parseInt(data[i++]);
                     mh.min = Double.parseDouble(data[i++]);
                     mh.max = Double.parseDouble(data[i++]);

@@ -17,6 +17,8 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Indexes;
 import com.redhat.qiot.datahub.importer.domain.MeasurementHistory;
 
 import io.quarkus.runtime.StartupEvent;
@@ -25,7 +27,7 @@ import io.quarkus.runtime.StartupEvent;
 public class MeasurementHistoryRepository {
     private final String DATABASE_NAME = "qiot";
 
-    private final String MEASUREMENTHISTORY = "measurementhistory";
+    private final String MEASUREMENTHISTORY = "mh";
 
     @Inject
     Logger LOGGER;
@@ -48,7 +50,7 @@ public class MeasurementHistoryRepository {
         try {
             qiotDatabase.createCollection(MEASUREMENTHISTORY);
         } catch (Exception e) {
-            LOGGER.info("Collection \"measurementhistory\" already exists");
+            LOGGER.info("Collection {} already exists",MEASUREMENTHISTORY);
         }
         measurementHistoryCollection = qiotDatabase
                 .getCollection(MEASUREMENTHISTORY, MeasurementHistory.class);
@@ -69,10 +71,10 @@ public class MeasurementHistoryRepository {
     }
 
     private void ensureIndexes() {
-        // IndexOptions indexOptions = new IndexOptions().unique(true);
-        // measurementHistoryCollection.createIndex(
-        // Indexes.ascending("date", "country", "city", "specie"),
-        // indexOptions);
+        IndexOptions indexOptions = new IndexOptions().unique(true);
+        measurementHistoryCollection.createIndex(
+                Indexes.ascending("date", "country", "city", "specie"),
+                indexOptions);
     }
 
     // public void save(String country, String city, double longitude,
