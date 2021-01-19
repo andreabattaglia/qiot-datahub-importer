@@ -1,4 +1,4 @@
-package com.redhat.qiot.datahub.importer.util.logging;
+package org.qiot.covid19.datahub.importer.util.logging;
 
 
 import javax.enterprise.context.ApplicationScoped;

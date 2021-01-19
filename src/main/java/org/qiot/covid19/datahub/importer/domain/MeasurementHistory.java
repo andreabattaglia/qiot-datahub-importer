@@ -1,4 +1,4 @@
-package com.redhat.qiot.datahub.importer.domain;
+package org.qiot.covid19.datahub.importer.domain;
 
 import org.bson.codecs.pojo.annotations.BsonId;
 

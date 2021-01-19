@@ -1,4 +1,4 @@
-package com.redhat.qiot.datahub.importer.persistence;
+package org.qiot.covid19.datahub.importer.persistence;
 
 import java.util.List;
 
@@ -7,13 +7,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.qiot.covid19.datahub.importer.domain.OtherMeasurementStation;
 import org.slf4j.Logger;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Indexes;
-import com.redhat.qiot.datahub.importer.domain.OtherMeasurementStation;
 
 import io.quarkus.runtime.StartupEvent;
 

@@ -1,4 +1,4 @@
-package com.redhat.qiot.datahub.importer.rest;
+package org.qiot.covid19.datahub.importer.rest;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.redhat.qiot.datahub.importer.service.UploadService;
+import org.qiot.covid19.datahub.importer.service.UploadService;
 
 @ApplicationScoped
 @Path("/")

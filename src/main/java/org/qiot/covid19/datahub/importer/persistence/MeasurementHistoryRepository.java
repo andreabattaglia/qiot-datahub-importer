@@ -1,4 +1,4 @@
-package com.redhat.qiot.datahub.importer.persistence;
+package org.qiot.covid19.datahub.importer.persistence;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.qiot.covid19.datahub.importer.domain.MeasurementHistory;
 import org.slf4j.Logger;
 
 import com.mongodb.MongoClientSettings;
@@ -19,7 +20,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.redhat.qiot.datahub.importer.domain.MeasurementHistory;
 
 import io.quarkus.runtime.StartupEvent;
 
@@ -61,7 +61,7 @@ public class MeasurementHistoryRepository {
 
         // Create a CodecRegistry containing the PojoCodecProvider instance.
         pojoCodecProvider = PojoCodecProvider.builder()
-                .register("com.redhat.qiot.datahub.importer.domain")
+                .register("org.qiot.covid19.datahub.importer.domain")
                 .automatic(true).build();
         pojoCodecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),

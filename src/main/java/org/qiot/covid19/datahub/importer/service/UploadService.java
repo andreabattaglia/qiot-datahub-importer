@@ -1,4 +1,4 @@
-package com.redhat.qiot.datahub.importer.service;
+package org.qiot.covid19.datahub.importer.service;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -20,15 +20,15 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
+import org.qiot.covid19.datahub.importer.domain.MeasurementHistory;
+import org.qiot.covid19.datahub.importer.domain.MeasurementHistoryType;
+import org.qiot.covid19.datahub.importer.domain.OtherMeasurementStation;
+import org.qiot.covid19.datahub.importer.persistence.MeasurementHistoryRepository;
+import org.qiot.covid19.datahub.importer.persistence.OtherMeasurementStationRepository;
 import org.slf4j.Logger;
 
 import com.mongodb.client.model.geojson.Point;
 import com.mongodb.client.model.geojson.Position;
-import com.redhat.qiot.datahub.importer.domain.MeasurementHistory;
-import com.redhat.qiot.datahub.importer.domain.MeasurementHistoryType;
-import com.redhat.qiot.datahub.importer.domain.OtherMeasurementStation;
-import com.redhat.qiot.datahub.importer.persistence.MeasurementHistoryRepository;
-import com.redhat.qiot.datahub.importer.persistence.OtherMeasurementStationRepository;
 
 @ApplicationScoped
 public class UploadService {
