@@ -16,9 +16,9 @@ columns = [ "date",
             "variance"]
 
 values = {
-    "pm1": "pm_1",
+    "pm1": "pm1_0",
     "pm25": "pm2_5",
-    "pm10": "pm_10",
+    "pm10": "pm10",
     "wind gust": "wind-speed",
     "wind-gust": "wind-speed",
     "wind speed": "wind-speed",
@@ -26,7 +26,7 @@ values = {
 }
 
 #convert sample data to line protocol (with nanosecond precision)
-df = pd.read_csv("measurements/waqi-covid-2020.csv", names=columns, header=None)
+df = pd.read_csv("measurements/waqi-covid-2019Q4.csv", names=columns, header=None)
 
 with open('stations/airquality-covid19-cities.json') as json_file:
     json_data = json.load(json_file)
@@ -50,4 +50,4 @@ with open("output.txt", "w") as output_file:
         line_val= "%s,country=%s,city=%s,lat=%s,long=%s,population=%s,feature=%s count=%s,min=%s,max=%s,median=%s,variance=%s %d\n" % \
                 (r["specie"], r["country"], r["city"], latitude, longitude, pop, feature, \
                 r["count"], r["min"], r["max"], r["median"], r["variance"], timestamp)
-        influx_client.write_points(line_val, database='covid19', time_precision='ms', protocol='line')
+        influx_client.write_points(line_val, database='covid19', time_precision='s', protocol='line')
