@@ -47,6 +47,7 @@ with open("output.txt", "w") as output_file:
         if r["specie"] in values:
             r["specie"] = values[r["specie"]]
 
-        output_file.write("%s,country=%s,city=%s,lat=%s,long=%s,population=%s,feature=%s count=%s,min=%s,max=%s,median=%s,variance=%s %d\n" % \
+        line_val= "%s,country=%s,city=%s,lat=%s,long=%s,population=%s,feature=%s count=%s,min=%s,max=%s,median=%s,variance=%s %d\n" % \
                 (r["specie"], r["country"], r["city"], latitude, longitude, pop, feature, \
-                r["count"], r["min"], r["max"], r["median"], r["variance"], timestamp))
+                r["count"], r["min"], r["max"], r["median"], r["variance"], timestamp)
+        influx_client.write_points(line_val, database='covid19', time_precision='ms', protocol='line')
