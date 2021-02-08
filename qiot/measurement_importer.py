@@ -15,6 +15,16 @@ columns = [ "date",
             "median",
             "variance"]
 
+values = {
+    "pm1": "pm_1",
+    "pm25": "pm2_5",
+    "pm10": "pm_10",
+    "wind gust": "wind-speed",
+    "wind-gust": "wind-speed",
+    "wind speed": "wind-speed",
+    "wind-speed": "wind-speed"
+}
+
 #convert sample data to line protocol (with nanosecond precision)
 df = pd.read_csv("measurements/waqi-covid-2020.csv", names=columns, header=None)
 
@@ -34,6 +44,9 @@ with open("output.txt", "w") as output_file:
                     pop = d["Place"]["pop"]
                     feature = d["Place"]["feature"]
 
-        output_file.write("%s,country=%s,city=%s,lat=%s,long=%s,pop=%s,feature=%s count=%s,min=%s,max=%s,median=%s,variance=%s %d\n" % \
+        if r["specie"] in values:
+            r["specie"] = values[r["specie"]]
+
+        output_file.write("%s,country=%s,city=%s,lat=%s,long=%s,population=%s,feature=%s count=%s,min=%s,max=%s,median=%s,variance=%s %d\n" % \
                 (r["specie"], r["country"], r["city"], latitude, longitude, pop, feature, \
                 r["count"], r["min"], r["max"], r["median"], r["variance"], timestamp))
