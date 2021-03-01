@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="Andrea Battaglia" id="1">
+      <comment>Create station table</comment>
+      <sql>
+        CREATE TABLE `stationhistory` (
+          `id` binary(16) NOT NULL,
+          `city` varchar(255) NOT NULL,
+          `country` varchar(255) NOT NULL,
+          `geometry` geometry NOT NULL /*!80003 SRID 4326 */,
+          `imported_on` timestamp NULL DEFAULT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `location_idx` (`city`,`country`),
+          SPATIAL KEY `coordinates_idx` (`geometry`)
+        ) ENGINE=InnoDB;
+      </sql>
+    </changeSet>
+    
+</databaseChangeLog>
