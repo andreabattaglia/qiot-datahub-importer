@@ -57,9 +57,9 @@ public class RelationalTelemetryImportService
                     counter++;
                     if (counter % 10000 == 0) {
                         rawTelemetryRepository.persist(rawTelemetryHistories);
+                        rawTelemetryRepository.flush();
                         LOGGER.info("Measurement History uploaded so far: {}",
                                 counter);
-                        // TODO: catch "entity already exists"
                         rawTelemetryHistories.clear();
                     }
                 } catch (ParseException e) {
@@ -87,7 +87,7 @@ public class RelationalTelemetryImportService
     protected int removeDuplicates() {
         LOGGER.info("Cleaning up duplicates...");
         int dedup = rawTelemetryRepository.dedup();
-        LOGGER.info("removed {} duplicates from rew telemetry table", dedup);
+        LOGGER.info("removed {} duplicates from raw telemetry table", dedup);
         return dedup;
     }
 

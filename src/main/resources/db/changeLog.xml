@@ -10,16 +10,35 @@
     <changeSet author="Andrea Battaglia" id="1">
       <comment>Create station table</comment>
       <sql>
-        CREATE TABLE `stationhistory` (
-          `id` binary(16) NOT NULL,
-          `city` varchar(255) NOT NULL,
-          `country` varchar(255) NOT NULL,
-          `geometry` geometry NOT NULL /*!80003 SRID 4326 */,
-          `imported_on` timestamp NULL DEFAULT NULL,
-          PRIMARY KEY (`id`),
-          UNIQUE KEY `location_idx` (`city`,`country`),
-          SPATIAL KEY `coordinates_idx` (`geometry`)
-        ) ENGINE=InnoDB;
+        CREATE TABLE public.stationhistory
+        (
+            id bigint NOT NULL,
+            city character varying(255) COLLATE pg_catalog."default" NOT NULL,
+            country character varying(255) COLLATE pg_catalog."default" NOT NULL,
+            imported_on timestamp without time zone NOT NULL,
+            latitude double precision NOT NULL,
+            longitude double precision NOT NULL,
+            CONSTRAINT stationhistory_pkey PRIMARY KEY (id),
+            CONSTRAINT location_idx UNIQUE (city, country)
+        )
+        TABLESPACE pg_default;
+      </sql>
+      <sql>
+        CREATE TABLE public.rawtelemetryhistory
+        (
+            id uuid NOT NULL,
+            city character varying(255) COLLATE pg_catalog."default",
+            count integer,
+            country character varying(255) COLLATE pg_catalog."default",
+            date date,
+            max double precision,
+            median double precision,
+            min double precision,
+            specie character varying(255) COLLATE pg_catalog."default",
+            variance double precision,
+            CONSTRAINT rawtelemetryhistory_pkey PRIMARY KEY (id)
+        )
+        TABLESPACE pg_default;
       </sql>
     </changeSet>
     

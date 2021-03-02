@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/qiot-datahub-measurement-importer-jvm .
+# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/qiot-datahub-importer .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/qiot-datahub-measurement-importer-jvm
+# docker run -i --rm -p 8080:8080 quarkus/qiot-datahub-importer
 #
 # If you want to include the debug port into your docker image
 # you will have to expose the debug port (default 5005) like this :  EXPOSE 8080 5050
@@ -47,10 +47,6 @@ ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jb
 
 COPY target/lib/* /deployments/lib/
 COPY target/*-runner.jar /deployments/app.jar
-RUN mkdir -p /tmp/qiot/stations
-RUN mkdir -p /tmp/qiot/measurements
-COPY --chown=1001:root qiot/stations /tmp/qiot/stations
-COPY --chown=1001:root qiot/measurements /tmp/qiot/measurements
 
 EXPOSE 8080
 USER 1001

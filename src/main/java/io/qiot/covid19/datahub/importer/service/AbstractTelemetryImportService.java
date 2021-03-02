@@ -45,6 +45,7 @@ public abstract class AbstractTelemetryImportService
         List<TelemetryImportUploadResult> results = new ArrayList<>();
         for (HistoricalDataPeriod period : HistoricalDataPeriod.values())
             results.add(importSingleTelemetry(period));
+        LOGGER.info("Import phase for ALL periods completed");
         return results;
     }
 
@@ -55,7 +56,7 @@ public abstract class AbstractTelemetryImportService
         try {
             String onlineSourceURL = baseUrl + "/" + token + "/"
                     + period.getPeriod();
-            LOGGER.info("importing raw telemetry from source {}",
+            LOGGER.info("Importing raw telemetry from source {}",
                     onlineSourceURL);
             website = new URL(onlineSourceURL);
             try (BufferedReader br = new BufferedReader(
@@ -63,6 +64,8 @@ public abstract class AbstractTelemetryImportService
                 TelemetryImportUploadResult importResult = importTelemetryHistory(
                         br);
                 importResult.duplicates = removeDuplicates();
+                LOGGER.info("Import phase for period {} completed",
+                        period.name());
                 return importResult;
             } catch (IOException e) {
                 throw new DataServiceException(
