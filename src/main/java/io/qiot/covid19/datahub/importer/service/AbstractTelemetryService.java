@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +20,19 @@ import io.qiot.covid19.datahub.importer.domain.dto.HistoricalDataPeriod;
 import io.qiot.covid19.datahub.importer.domain.dto.TelemetryImportUploadResult;
 import io.qiot.covid19.datahub.importer.exceptions.DataServiceException;
 
-public abstract class AbstractTelemetryImportService
-        implements TelemetryImportService {
-    protected final DateFormat df = new SimpleDateFormat("yyyy-MM-dd",
+/**
+ * The Class AbstractTelemetryService.
+ *
+ * @author andreabattaglia
+ */
+public abstract class AbstractTelemetryService
+        implements TelemetryService {
+    
+    /** The df. */
+    protected final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",
             Locale.ENGLISH);
 
+    /** The separator. */
     protected final String SEPARATOR = ",";
 
     /** The base url. */
@@ -36,9 +43,16 @@ public abstract class AbstractTelemetryImportService
     @ConfigProperty(name = "app.aqicn.token")
     protected String token;
 
+    /** The logger. */
     @Inject
     Logger LOGGER;
 
+    /**
+     * Import all available telemetry.
+     *
+     * @return the list
+     * @throws DataServiceException the data service exception
+     */
     @Override
     public List<TelemetryImportUploadResult> importAllAvailableTelemetry()
             throws DataServiceException {
@@ -49,6 +63,13 @@ public abstract class AbstractTelemetryImportService
         return results;
     }
 
+    /**
+     * Import single telemetry.
+     *
+     * @param period the period
+     * @return the telemetry import upload result
+     * @throws DataServiceException the data service exception
+     */
     @Override
     public TelemetryImportUploadResult importSingleTelemetry(
             HistoricalDataPeriod period) throws DataServiceException {
@@ -83,10 +104,22 @@ public abstract class AbstractTelemetryImportService
         }
     }
 
+    /**
+     * Import telemetry history.
+     *
+     * @param br the br
+     * @return the telemetry import upload result
+     * @throws DataServiceException the data service exception
+     */
     @Transactional
     protected abstract TelemetryImportUploadResult importTelemetryHistory(
             BufferedReader br) throws DataServiceException;
 
+    /**
+     * Removes the duplicates.
+     *
+     * @return the int
+     */
     @Transactional
     protected abstract int removeDuplicates();
 }

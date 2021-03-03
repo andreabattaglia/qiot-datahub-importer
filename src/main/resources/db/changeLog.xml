@@ -41,6 +41,12 @@
         TABLESPACE pg_default;
       </sql>
       <sql>
+        CREATE INDEX rawtelemetryhistory_search_idx
+            ON public.rawtelemetryhistory USING btree
+            (date ASC NULLS LAST, country COLLATE pg_catalog."default" ASC NULLS LAST, city COLLATE pg_catalog."default" ASC NULLS LAST, specie COLLATE pg_catalog."default" ASC NULLS LAST)
+            TABLESPACE pg_default;
+      </sql>
+      <sql>
         CREATE SEQUENCE public.hibernate_sequence
             INCREMENT 1
             START 1

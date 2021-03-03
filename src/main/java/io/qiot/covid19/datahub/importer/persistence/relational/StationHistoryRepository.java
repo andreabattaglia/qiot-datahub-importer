@@ -11,9 +11,15 @@ import org.slf4j.Logger;
 import io.qiot.covid19.datahub.importer.domain.relational.StationHistory;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
+/**
+ * The Class StationHistoryRepository.
+ *
+ * @author andreabattaglia
+ */
 @ApplicationScoped
 public class StationHistoryRepository implements PanacheRepositoryBase<StationHistory, UUID> {
 
+    /** The logger. */
     @Inject
     Logger LOGGER;
 
@@ -41,7 +47,12 @@ public class StationHistoryRepository implements PanacheRepositoryBase<StationHi
 //        return ms;
 //    }
 
-    public List<StationHistory> findAllStations() {
+    /**
+ * Find all stations.
+ *
+ * @return the list
+ */
+public List<StationHistory> findAllStations() {
         return findAll().list();
     }
 

@@ -16,6 +16,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.slf4j.Logger;
 
 import io.qiot.covid19.datahub.importer.domain.dto.StationImportResult;
@@ -29,7 +30,7 @@ import io.qiot.covid19.datahub.importer.persistence.relational.StationHistoryRep
  * @author andreabattaglia
  */
 @ApplicationScoped
-public class StationImportService {
+public class RelationalStationService {
 
     /** The logger. */
     @Inject
@@ -54,7 +55,7 @@ public class StationImportService {
      * Import from url.
      *
      * @return the string
-     * @throws DataServiceException 
+     * @throws DataServiceException the data service exception
      */
     public StationImportResult importFromUrl() throws DataServiceException {
         JsonObject jsonObject;
@@ -134,6 +135,17 @@ public class StationImportService {
         stationHistory.latitude = coordinates.getJsonNumber(0).doubleValue();
 
         return stationHistory;
+    }
+
+    /**
+     * Find by location.
+     *
+     * @param countryCode the country code
+     * @param city the city
+     * @return the station history
+     */
+    public StationHistory findByLocation(String countryCode, String city) {
+        throw new NotYetImplementedException();
     }
 
 }

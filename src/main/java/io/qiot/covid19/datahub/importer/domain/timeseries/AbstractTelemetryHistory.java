@@ -8,13 +8,24 @@ import com.influxdb.annotations.Column;
 import io.qiot.covid19.datahub.importer.domain.relational.StationHistory;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+/**
+ * The Class AbstractTelemetryHistory.
+ *
+ * @author andreabattaglia
+ */
 @RegisterForReflection
 public abstract class AbstractTelemetryHistory extends StationHistory {
 
+    /** The time. */
     @JsonProperty(value = "instant")
     @Column(timestamp = true)
     public Instant time;
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -25,6 +36,12 @@ public abstract class AbstractTelemetryHistory extends StationHistory {
         return result;
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

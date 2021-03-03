@@ -18,19 +18,34 @@ import io.qiot.covid19.datahub.importer.domain.relational.RawTelemetryHistoryTyp
 import io.qiot.covid19.datahub.importer.exceptions.DataServiceException;
 import io.qiot.covid19.datahub.importer.exceptions.RawTelemetryTransformationException;
 import io.qiot.covid19.datahub.importer.persistence.relational.RawTelemetryHistoryRepository;
-import io.qiot.covid19.datahub.importer.service.AbstractTelemetryImportService;
+import io.qiot.covid19.datahub.importer.service.AbstractTelemetryService;
 
+/**
+ * The Class RelationalTelemetryService.
+ *
+ * @author andreabattaglia
+ */
 @ApplicationScoped
-@Typed(RelationalTelemetryImportService.class)
-public class RelationalTelemetryImportService
-        extends AbstractTelemetryImportService {
+@Typed(RelationalTelemetryService.class)
+public class RelationalTelemetryService extends AbstractTelemetryService {
 
+    /** The logger. */
     @Inject
     Logger LOGGER;
 
+    /** The raw telemetry repository. */
     @Inject
     RawTelemetryHistoryRepository rawTelemetryRepository;
 
+    /**
+     * Import telemetry history.
+     *
+     * @param br
+     *            the br
+     * @return the telemetry import upload result
+     * @throws DataServiceException
+     *             the data service exception
+     */
     @Override
     protected TelemetryImportUploadResult importTelemetryHistory(
             BufferedReader br) throws DataServiceException {
@@ -83,6 +98,11 @@ public class RelationalTelemetryImportService
         return result;
     }
 
+    /**
+     * Removes the duplicates.
+     *
+     * @return the int
+     */
     @Override
     protected int removeDuplicates() {
         LOGGER.info("Cleaning up duplicates...");
@@ -91,6 +111,17 @@ public class RelationalTelemetryImportService
         return dedup;
     }
 
+    /**
+     * Line to pojo.
+     *
+     * @param line
+     *            the line
+     * @return the raw telemetry history
+     * @throws RawTelemetryTransformationException
+     *             the raw telemetry transformation exception
+     * @throws ParseException
+     *             the parse exception
+     */
     private RawTelemetryHistory lineToPojo(String line)
             throws RawTelemetryTransformationException, ParseException {
 
@@ -113,6 +144,19 @@ public class RelationalTelemetryImportService
         rth.variance = Double.parseDouble(data[i++]);
         return rth;
 
+    }
+
+    @Override
+    public RawTelemetryHistory findParameters(String date, String countryCode,
+            String city, RawTelemetryHistoryType specie)
+            throws DataServiceException {
+        try {
+            return rawTelemetryRepository.find(
+                    "from RawTelemetryHistory where date = ?1 and country = ?2 and city = ?3 and specie = ?4",
+                    df.parse(date), countryCode, city, specie).singleResult();
+        } catch (ParseException e) {
+            throw new DataServiceException(e);
+        }
     }
 
 }

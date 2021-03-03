@@ -1,14 +1,16 @@
 package io.qiot.covid19.datahub.importer.domain.timeseries;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.influxdb.annotations.Column;
 import com.influxdb.annotations.Measurement;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+/**
+ * The Class PollutionTelemetryHistory.
+ *
+ * @author andreabattaglia
+ */
 /*
  {
 "stationId":int,
@@ -33,43 +35,71 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 //@Table(name = "temporarypollutionhistory")
 public class PollutionTelemetryHistory extends AbstractTelemetryHistory {
 
+    /** The pm 1 0. */
     @JsonProperty(value = "pm1_0")
     @Column
     public int pm1_0;
+    
+    /** The pm 2 5. */
     @JsonProperty(value = "pm2_5")
     @Column
     public int pm2_5;
+    
+    /** The pm 10. */
     @JsonProperty(value = "pm10")
     @Column
     public int pm10;
+    
+    /** The pm 1 0 atm. */
     @JsonProperty(value = "pm1_0_atm")
     @Column
     public int pm1_0_atm;
+    
+    /** The pm 2 5 atm. */
     @JsonProperty(value = "pm2_5_atm")
     @Column
     public int pm2_5_atm;
+    
+    /** The pm 10 atm. */
     @JsonProperty(value = "pm10_atm")
     @Column
     public int pm10_atm;
+    
+    /** The gt 0 3 um. */
     @JsonProperty(value = "gt0_3um")
     @Column
     public int gt0_3um;
+    
+    /** The gt 0 5 um. */
     @JsonProperty(value = "gt0_5um")
     @Column
     public int gt0_5um;
+    
+    /** The gt 1 0 um. */
     @JsonProperty(value = "gt1_0um")
     @Column
     public int gt1_0um;
+    
+    /** The gt 2 5 um. */
     @JsonProperty(value = "gt2_5um")
     @Column
     public int gt2_5um;
+    
+    /** The gt 5 0 um. */
     @JsonProperty(value = "gt5_0um")
     @Column
     public int gt5_0um;
+    
+    /** The gt 10 um. */
     @JsonProperty(value = "gt10um")
     @Column
     public int gt10um;
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

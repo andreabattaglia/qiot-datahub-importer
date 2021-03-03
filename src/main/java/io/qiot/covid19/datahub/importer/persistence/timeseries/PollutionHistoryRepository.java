@@ -12,13 +12,24 @@ import io.qiot.covid19.datahub.importer.domain.timeseries.PollutionTelemetryHist
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
+/**
+ * The Class PollutionHistoryRepository.
+ *
+ * @author andreabattaglia
+ */
 @ApplicationScoped
 public class PollutionHistoryRepository extends AbstractRepository<PollutionTelemetryHistory> {
 
 
+    /** The logger. */
     @Inject
     Logger LOGGER;
     
+    /**
+     * On start.
+     *
+     * @param ev the ev
+     */
     void onStart(@Observes StartupEvent ev) {
         LOGGER.info("Connecting to: {}, token: {}, org: {}, bucketId: {}",
                 connectionUrl, token, orgId, bucketId);
@@ -28,11 +39,21 @@ public class PollutionHistoryRepository extends AbstractRepository<PollutionTele
                 influxDBClient.health().toString());
     }
     
+    /**
+     * Gets the empty array of type.
+     *
+     * @return the empty array of type
+     */
     @Override
     protected PollutionTelemetryHistory[] getEmptyArrayOfType() {
         return new PollutionTelemetryHistory[0];
     }
 
+    /**
+     * On stop.
+     *
+     * @param ev the ev
+     */
     void onStop(@Observes ShutdownEvent ev) {
         influxDBClient.close();
     }

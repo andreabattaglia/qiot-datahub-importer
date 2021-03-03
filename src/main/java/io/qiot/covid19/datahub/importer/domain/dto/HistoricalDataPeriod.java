@@ -59,6 +59,11 @@ public enum HistoricalDataPeriod {
         this.period = period;
     }
     
+    /**
+     * Gets the period.
+     *
+     * @return the period
+     */
     public String getPeriod() {
         return period;
     }

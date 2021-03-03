@@ -12,16 +12,28 @@ import org.slf4j.Logger;
 import io.qiot.covid19.datahub.importer.domain.relational.RawTelemetryHistory;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
+/**
+ * The Class RawTelemetryHistoryRepository.
+ *
+ * @author andreabattaglia
+ */
 @ApplicationScoped
 public class RawTelemetryHistoryRepository
         implements PanacheRepositoryBase<RawTelemetryHistory, UUID> {
 
+    /** The logger. */
     @Inject
     Logger LOGGER;
 
+    /** The em. */
     @Inject
     EntityManager em;
 
+    /**
+     * Dedup.
+     *
+     * @return the int
+     */
     public int dedup() {
         Query q = em.createNativeQuery("DELETE FROM rawtelemetryhistory rt1 USING rawtelemetryhistory rt2 \n"
                 + "WHERE \n"
