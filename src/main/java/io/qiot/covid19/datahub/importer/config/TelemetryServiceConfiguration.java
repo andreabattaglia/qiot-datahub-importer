@@ -18,7 +18,7 @@ import io.quarkus.arc.properties.IfBuildProperty;
  * @author andreabattaglia
  */
 @Dependent
-public class TelemetryImporterServiceConfiguration {
+public class TelemetryServiceConfiguration {
 
     /** The logger. */
     @Inject

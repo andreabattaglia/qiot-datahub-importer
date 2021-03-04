@@ -63,6 +63,8 @@ public class RelationalStationService {
         JsonArray stationObjects = null;
         List<StationHistory> omss;
         URL website;
+        LOGGER.info("Importing third party stations from source {}",
+                url);
         try {
             website = new URL(url);
             try (BufferedReader br = new BufferedReader(
@@ -90,6 +92,8 @@ public class RelationalStationService {
                     "An error occurred connecting to the historical data source",
                     e2);
         }
+        LOGGER.info("Stations import process completed: \n{}",
+                results);
         return results;
     }
 

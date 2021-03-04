@@ -51,9 +51,6 @@ public class RelationalTelemetryService extends AbstractTelemetryService {
             BufferedReader br) throws DataServiceException {
         TelemetryImportUploadResult result = new TelemetryImportUploadResult();
         int counter = 0;
-        /*
-         * 1 - Import raw telemetry into the relational database
-         */
 
         List<RawTelemetryHistory> rawTelemetryHistories;
         String line = "";
