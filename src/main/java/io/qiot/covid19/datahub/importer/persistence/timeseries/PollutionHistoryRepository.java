@@ -31,10 +31,10 @@ public class PollutionHistoryRepository extends AbstractRepository<PollutionTele
      * @param ev the ev
      */
     void onStart(@Observes StartupEvent ev) {
-        LOGGER.info("Connecting to: {}, token: {}, org: {}, bucketId: {}",
-                connectionUrl, token, orgId, bucketId);
+        LOGGER.info("Connecting to: {}, token: {}, org: {}, bucket: {}",
+                connectionUrl, token, org, bucket);
         influxDBClient = InfluxDBClientFactory.create(connectionUrl,
-                token.toCharArray(), orgId, bucketId);
+                token.toCharArray(), org, bucket);
         LOGGER.info("Connection successfull:\n{}",
                 influxDBClient.health().toString());
     }

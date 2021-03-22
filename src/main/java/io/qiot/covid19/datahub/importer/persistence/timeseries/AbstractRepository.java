@@ -41,16 +41,12 @@ public abstract class AbstractRepository<T extends AbstractTelemetryHistory> {
     public String token;
     
     /** The org id. */
-    @ConfigProperty(name = "influxdb.orgId")
-    public String orgId;
-    
-    /** The bucket id. */
-    @ConfigProperty(name = "influxdb.data.bucketId")
-    public String bucketId;
+    @ConfigProperty(name = "influxdb.org")
+    public String org;
     
     /** The bucket name. */
-    @ConfigProperty(name = "influxdb.data.bucketName")
-    public String bucketName;
+    @ConfigProperty(name = "influxdb.data.bucket")
+    public String bucket;
 
     /**
      * Save.
