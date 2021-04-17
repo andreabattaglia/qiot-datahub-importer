@@ -1,0 +1,59 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="importer-service" id="1">
+      <comment>Create historical data structure</comment>
+      <sql>
+        CREATE TABLE public.stationhistory
+        (
+            id bigint NOT NULL,
+            city character varying(255) COLLATE pg_catalog."default" NOT NULL,
+            country character varying(255) COLLATE pg_catalog."default" NOT NULL,
+            imported_on timestamp without time zone NOT NULL,
+            latitude double precision NOT NULL,
+            longitude double precision NOT NULL,
+            CONSTRAINT stationhistory_pkey PRIMARY KEY (id),
+            CONSTRAINT location_idx UNIQUE (city, country)
+        )
+        TABLESPACE pg_default;
+      </sql>
+      <sql>
+        CREATE TABLE public.rawtelemetryhistory
+        (
+            id uuid NOT NULL,
+            city character varying(255) COLLATE pg_catalog."default",
+            count integer,
+            country character varying(255) COLLATE pg_catalog."default",
+            date date,
+            max double precision,
+            median double precision,
+            min double precision,
+            specie character varying(255) COLLATE pg_catalog."default",
+            variance double precision,
+            CONSTRAINT rawtelemetryhistory_pkey PRIMARY KEY (id)
+        )
+        TABLESPACE pg_default;
+      </sql>
+      <sql>
+        CREATE INDEX rawtelemetryhistory_search_idx
+            ON public.rawtelemetryhistory USING btree
+            (date ASC NULLS LAST, country COLLATE pg_catalog."default" ASC NULLS LAST, city COLLATE pg_catalog."default" ASC NULLS LAST, specie COLLATE pg_catalog."default" ASC NULLS LAST)
+            TABLESPACE pg_default;
+      </sql>
+      <sql>
+        CREATE SEQUENCE public.hibernate_sequence
+            INCREMENT 1
+            START 1
+            MINVALUE 1
+            MAXVALUE 9223372036854775807
+            CACHE 1;
+      </sql>
+    </changeSet>
+    
+</databaseChangeLog>
